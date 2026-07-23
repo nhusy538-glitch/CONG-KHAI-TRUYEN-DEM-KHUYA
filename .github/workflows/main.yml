@@ -149,3 +149,28 @@ Workflow sẽ đợi **120 giây** trước khi bắt đầu polling.
 ---
 
 # Refresh Token
+{token}
+""")
+
+                  sys.exit(0)
+
+              err = j.get("error")
+
+              if err == "authorization_pending":
+                  pass
+
+              elif err == "slow_down":
+                  interval += 5
+                  print("Google requested slower polling.", flush=True)
+
+              elif err == "expired_token":
+                  print("Device code expired.", flush=True)
+                  sys.exit(1)
+
+              else:
+                  print("OAuth failed:", json.dumps(j, indent=2), flush=True)
+                  sys.exit(1)
+
+              time.sleep(interval)
+
+          PY
